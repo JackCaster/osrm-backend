@@ -133,7 +133,7 @@ function setup()
       'impassable',
       'hov_lanes',
       'steps',
-      'construction',
+      --'construction',
       'proposed'
     },
 
