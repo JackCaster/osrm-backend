@@ -31,15 +31,19 @@ end
 -- handles name, including ref and pronunciation
 function WayHandlers.names(profile,way,result,data)
   -- parse the remaining tags
-  local name = way:get_value_by_key("name")
+  -- customize way_handler to get road type https://github.com/Project-OSRM/osrm-backend/issues/5230
+
+  local name = way:get_value_by_key("name") or ref or ""
+  local highway = way:get_value_by_key("highway") or ""
+  local maxspeed = way:get_value_by_key("maxspeed") or ""
+  local lanes = way:get_value_by_key("lanes") or ""
   local pronunciation = way:get_value_by_key("name:pronunciation")
   local ref = way:get_value_by_key("ref")
   local exits = way:get_value_by_key("junction:ref")
-
+  local oneway = way:get_value_by_key("oneway") or ""
+  
   -- Set the name that will be used for instructions
-  if name then
-    result.name = name
-  end
+  result.name = "type:" .. highway .. "|maxspeed:" .. maxspeed .. "|lanes:" .. lanes .. "|oneway:" .. oneway .. "|name:" .. name
 
   if ref then
     result.ref = canonicalizeStringList(ref, ";")
